@@ -36,12 +36,8 @@ export default class VoteScene extends Component {
           <VotingOption value='13' />
         </View>
         <View style={styles.horizontalContainerBox}>
-          <View style={styles.numberBox}>
-            <Text style={styles.number}> ∞ </Text>
-          </View>
-          <View style={styles.numberBox}>
-            <Text style={styles.number}> ? </Text>
-          </View>
+          <VotingOption value='∞' />
+          <VotingOption value='?' />
         </View>
      </View>
     );
