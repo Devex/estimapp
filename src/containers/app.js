@@ -8,37 +8,62 @@ import {
 export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+        <View style={styles.verticalContainerBox}>
+        <View style={styles.horizontalContainerBox}>
+          <View style={styles.numberBox}>
+        <Text style={styles.number}> 1 </Text>
+          </View>
+          <View style={styles.numberBox}>
+            <Text style={styles.number}> 2 </Text>
+          </View>
+          <View style={styles.numberBox}>
+            <Text style={styles.number}> 3 </Text>
+          </View>
+        </View>
+        <View style={styles.horizontalContainerBox}>
+          <View style={styles.numberBox}>
+            <Text style={styles.number}> 5 </Text>
+          </View>
+          <View style={styles.numberBox}>
+            <Text style={styles.number}> 8 </Text>
+          </View>
+          <View style={styles.numberBox}>
+            <Text style={styles.number}> 13 </Text>
+          </View>
+        </View>
+        <View style={styles.horizontalContainerBox}>
+        <View style={styles.numberBox}>
+        <Text style={styles.number}> ∞ </Text>
+        </View>
+        <View style={styles.numberBox}>
+        <Text style={styles.number}> ? </Text>
+        </View>
+        </View>
+     </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  number: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    fontSize: 64,
+  },
+  numberBox: {
+    width: 100,
+    height: 100,
+    backgroundColor: 'skyblue',
+  },
+  verticalContainerBox: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    marginTop: 15,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  horizontalContainerBox: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });
