@@ -4,18 +4,9 @@ import {
   Text,
   View
 } from 'react-native';
+import VotingOption from '../components/votingOption'
 
 const styles = StyleSheet.create({
-  number: {
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    fontSize: 64,
-  },
-  numberBox: {
-    width: 100,
-    height: 100,
-    backgroundColor: 'skyblue',
-  },
   verticalContainerBox: {
     flex: 1,
     flexDirection: 'column',
@@ -35,26 +26,14 @@ export default class VoteScene extends Component {
     return(
       <View style={styles.verticalContainerBox}>
         <View style={styles.horizontalContainerBox}>
-          <View style={styles.numberBox}>
-            <Text style={styles.number}> 1 </Text>
-          </View>
-          <View style={styles.numberBox}>
-            <Text style={styles.number}> 2 </Text>
-          </View>
-          <View style={styles.numberBox}>
-            <Text style={styles.number}> 3 </Text>
-          </View>
+          <VotingOption value='1' />
+          <VotingOption value='2' />
+          <VotingOption value='3' />
         </View>
         <View style={styles.horizontalContainerBox}>
-          <View style={styles.numberBox}>
-            <Text style={styles.number}> 5 </Text>
-          </View>
-          <View style={styles.numberBox}>
-            <Text style={styles.number}> 8 </Text>
-          </View>
-          <View style={styles.numberBox}>
-            <Text style={styles.number}> 13 </Text>
-          </View>
+          <VotingOption value='5' />
+          <VotingOption value='8' />
+          <VotingOption value='13' />
         </View>
         <View style={styles.horizontalContainerBox}>
           <View style={styles.numberBox}>
