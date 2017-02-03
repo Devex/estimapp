@@ -146,7 +146,12 @@ export default class DbConnector {
   /**
   * Delete all votes from DB
   */
-  flush() {
-    this.state.votes.forEach(vote => this.remove(vote));
+  async flush() {
+    try {
+      let votes = await this.read();
+      votes.forEach((vote) => this.remove(vote));
+    } catch (error) {
+      console.warn('Error flushing all votes:', error);
+    }
   }
 }
