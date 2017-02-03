@@ -55,7 +55,7 @@ export default class DbConnector {
 
     try {
       this.db.sync(this.remoteDb, {live: true, retry: true});
-
+ 
       this
         .db
         .changes({live: true, include_docs: true})
