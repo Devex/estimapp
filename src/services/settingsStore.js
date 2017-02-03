@@ -5,11 +5,15 @@
 import {AsyncStorage, } from 'react-native';
 
 let instance = null;
+let singletonEnforcer = null;
 const asyncStoreName = 'EstimAppSettings';
 
 export default class SettingsStore {
-  constructor() {
-    this.asyncStorage = AsyncStorage;
+  constructor(enforcer) {
+    if (enforcer || enforcer !== singletonEnforcer) {
+      throw 'Use `SettingsStore.instance` to get the object instance';
+    }
+    singletonEnforcer = 'instantiated';
     this.store = {
       username: null,
       apiKey: null,
@@ -18,9 +22,12 @@ export default class SettingsStore {
     this._readValue('apiKey');
   }
 
+  /**
+  * Method to retrieve or instantiate the singleton object
+  */
   static get instance() {
     if (!instance) {
-      instance = new SettingsStore();
+      instance = new SettingsStore(singletonEnforcer);
     }
     return instance;
   }
@@ -35,7 +42,7 @@ export default class SettingsStore {
   async _setValue(key, value) {
     try {
       this.store[key] = value;
-      await this.asyncStorage.setItem('@' + asyncStoreName + ':' + key, value);
+      await AsyncStorage.setItem('@' + asyncStoreName + ':' + key, value);
     } catch (error) {
       console.warn('Error saving data:', error);
     }
@@ -47,10 +54,8 @@ export default class SettingsStore {
   * @param {string} key - name of the param to read
   */
   async _readValue(key) {
-    console.log('this.asyncStorage: ', this.asyncStorage);
-    console.log('this.asyncStorage.getItem: ', this.asyncStorage.getItem);
     try {
-      const value = await this.asyncStorage.getItem('@' + asyncStoreName + ':' + key);
+      const value = await AsyncStorage.getItem('@' + asyncStoreName + ':' + key);
       if (value !== null){
         // We have data!!
         this.store[key] = value;
