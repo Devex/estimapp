@@ -8,12 +8,16 @@ import VoteScene from './voteScene';
 import ResultsScene from './resultsScene'
 import SettingsScene from './settingsScene';
 import SettingsStore from '../services/settingsStore';
+import DbConnector from '../services/dbConnector';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = { scene: 'Settings' };
     this.sceneSetter = new SceneSetter(this);
+
+    // Initialize the DB connection
+    DbConnector.instance;
   }
 
   render() {

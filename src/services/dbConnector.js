@@ -7,6 +7,7 @@ import SettingsStore from './settingsStore';
 
 let instance = null;
 let singletonEnforcer = null;
+let isSetUp = false;
 
 export default class DbConnector {
   constructor(enforcer) {
@@ -32,15 +33,22 @@ export default class DbConnector {
   * Reset the singleton instance, used when api  changes
   */
   static async reset() {
-    await instance()._setup();
+    isSetUp = false;
+    try {
+      await instance._setup();
+    } catch (error) {
+      console.warn('Error resetting the DB connection: ', error);
+    }
   }
 
   async _setup() {
+    if (isSetUp) {return};
+    isSetUp = true;
     const cloudantAccount = 'nicolas-fricke';
     const dbUser = 'seentablacdouggaideptere';
     const dbKey = await SettingsStore.instance._readValue('apiKey');
     if (!dbKey || dbKey === '') {
-      return
+      return;
     };
     const dbUrl = 'https://' + dbUser +  ':' + dbKey + '@' + cloudantAccount +
                   '.cloudant.com/estimapp';
@@ -48,16 +56,17 @@ export default class DbConnector {
     this.db = new PouchDB('estimapp');
     this.remoteDb = new PouchDB(dbUrl);
 
+
     try {
       this.db.sync(this.remoteDb, {live: true, retry: true});
+
+      this
+        .db
+        .changes({live: true, include_docs: true})
+        .on('change', this.read.bind(this));
     } catch (error) {
       console.warn('Error setting up DB sync: ', error);
     }
-
-    this
-      .db
-      .changes({live: true, include_docs: true})
-      .on('change', this.read.bind(this));
   }
 
   /**
@@ -83,17 +92,19 @@ export default class DbConnector {
   * @param {string} vote
   * @async
   */
-  async write(username, vote) {
+  async write(vote) {
+    const username = SettingsStore.instance.store.username;
     const voteDoc = {
-      '_id': username + '_' + new Date().getTime().toString(),
       'username': username,
       'vote': vote,
-      'created_at': new Date()
+      'createdAt': new Date()
     };
     try {
+      await this._setup();
       let result = await this.db.post(voteDoc);
       this.read();
     } catch (error) {
+      throw error
       console.warn('Error writing record (', voteDoc, ') to DB: ', error);
     }
   }
@@ -106,6 +117,7 @@ export default class DbConnector {
   */
   async read() {
     try {
+      await this._setup();
       let dbResult = await this.db.allDocs({include_docs : true});
       let votes = dbResult.rows.map(row => row.doc);
       this.readCallbacks.forEach((callback) => callback(votes));
@@ -123,6 +135,7 @@ export default class DbConnector {
   */
   async remove(vote) {
     try {
+      await this._setup();
       let result = await this.db.remove(vote)
       this.read();
     } catch (error) {
