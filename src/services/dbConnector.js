@@ -34,7 +34,11 @@ export default class DbConnector {
   */
   static async reset() {
     isSetUp = false;
-    await instance()._setup();
+    try {
+      await instance._setup();
+    } catch (error) {
+      console.warn('Error resetting the DB connection: ', error);
+    }
   }
 
   async _setup() {
@@ -55,7 +59,7 @@ export default class DbConnector {
 
     try {
       this.db.sync(this.remoteDb, {live: true, retry: true});
- 
+
       this
         .db
         .changes({live: true, include_docs: true})
