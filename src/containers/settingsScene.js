@@ -81,12 +81,12 @@ export default class SettingsScene extends Component {
           value={this.state.apiKey}
         />
         <Button
-          onPress={() => this._onButtonPress()}
-          title="Continue"
-        />
-        <Button
           title='Refresh DB connection'
           onPress={DbConnector.reset}
+        />
+        <Button
+          onPress={() => this._onButtonPress()}
+          title="Continue"
         />
       </View>
     );

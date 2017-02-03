@@ -5,7 +5,6 @@ import {
   View
 } from 'react-native';
 import Button from 'react-native-button';
-import DbConnector from '../services/dbConnector';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,13 +27,9 @@ export default class VotingOption extends Component {
       <Button
         containerStyle={styles.container}
         style={styles.text}
-        onPress={this._handlePress.bind(this)}>
+        onPress={() => this.props.onPress(this.props.value)}>
         {this.props.value}
       </Button>
     );
-  }
-
-  _handlePress() {
-    DbConnector.instance.write(this.props.value);
   }
 }

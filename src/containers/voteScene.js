@@ -4,8 +4,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import VotingOption from '../components/votingOption'
-import GoBack from '../components/goBack'
+import VotingOption from '../components/votingOption';
+import GoBack from '../components/goBack';
+import DbConnector from '../services/dbConnector';
 
 const styles = StyleSheet.create({
   verticalContainerBox: {
@@ -28,21 +29,25 @@ export default class VoteScene extends Component {
       <View style={styles.verticalContainerBox}>
         <GoBack sceneSetter={this.props.sceneSetter}/>
         <View style={styles.horizontalContainerBox}>
-          <VotingOption value='1' />
-          <VotingOption value='2' />
-          <VotingOption value='3' />
+          <VotingOption value='1' onPress={this._handleVote.bind(this)}/>
+          <VotingOption value='2' onPress={this._handleVote.bind(this)}/>
+          <VotingOption value='3' onPress={this._handleVote.bind(this)}/>
         </View>
         <View style={styles.horizontalContainerBox}>
-          <VotingOption value='5' />
-          <VotingOption value='8' />
-          <VotingOption value='13' />
+          <VotingOption value='5' onPress={this._handleVote.bind(this)}/>
+          <VotingOption value='8' onPress={this._handleVote.bind(this)}/>
+          <VotingOption value='13' onPress={this._handleVote.bind(this)}/>
         </View>
         <View style={styles.horizontalContainerBox}>
-          <VotingOption value='∞' />
-          <VotingOption value='?' />
+          <VotingOption value='∞' onPress={this._handleVote.bind(this)}/>
+          <VotingOption value='?' onPress={this._handleVote.bind(this)}/>
         </View>
      </View>
     );
   }
 
+  _handleVote(vote) {
+    DbConnector.instance.write(vote);
+    this.props.sceneSetter.current('Results');
+  }
 }
