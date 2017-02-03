@@ -5,6 +5,7 @@ import {
   View
 } from 'react-native';
 import VoteScene from './voteScene';
+import ResultsScene from './resultsScene'
 import SettingsScene from './settingsScene';
 import SettingsStore from '../services/settingsStore';
 
@@ -18,6 +19,8 @@ export default class App extends Component {
   render() {
     if (this.state.scene == 'Vote')
       return (<VoteScene sceneSetter={this.sceneSetter}/>);
+    else if (this.state.scene == 'Results')
+      return (<ResultsScene sceneSetter={this.sceneSetter}/>);
     else
       return (<SettingsScene sceneSetter={this.sceneSetter}/>);
   }
