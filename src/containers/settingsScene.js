@@ -58,6 +58,10 @@ export default class SettingsScene extends Component {
     this.settingsStore._setValue(key, value);
   }
 
+  _onButtonPress() {
+    this.props.sceneSetter.current('Vote');
+  }
+
   render() {
     return (
       <View>
@@ -74,6 +78,10 @@ export default class SettingsScene extends Component {
         <TextInput
           onChangeText={(key) => this._setValue('apiKey', key)}
           value={this.state.apiKey}
+        />
+        <Button
+      onPress={() => this._onButtonPress()}
+          title="Continue"
         />
       </View>
     );

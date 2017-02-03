@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
 } from 'react-native';
 import VotingOption from '../components/votingOption'
+import GoBack from '../components/goBack'
 
 const styles = StyleSheet.create({
   verticalContainerBox: {
@@ -25,6 +26,7 @@ export default class VoteScene extends Component {
   render() {
     return(
       <View style={styles.verticalContainerBox}>
+        <GoBack sceneSetter={this.props.sceneSetter}/>
         <View style={styles.horizontalContainerBox}>
           <VotingOption value='1' />
           <VotingOption value='2' />
@@ -42,4 +44,5 @@ export default class VoteScene extends Component {
      </View>
     );
   }
+
 }
