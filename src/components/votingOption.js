@@ -4,26 +4,37 @@ import {
   Text,
   View
 } from 'react-native';
+import Button from 'react-native-button';
+import DbConnector from '../services/dbConnector';
 
 const styles = StyleSheet.create({
-  number: {
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    fontSize: 64,
-  },
-  numberBox: {
-    width: 100,
+  container: {
+    padding: 10,
     height: 100,
-    backgroundColor: 'skyblue',
+    width: 100,
+    overflow: 'hidden',
+    borderRadius: 4,
+    backgroundColor: '#70b5cc'
   },
+  text: {
+    fontSize: 64,
+    color: 'white'
+  }
 });
 
 export default class VotingOption extends Component {
   render() {
     return(
-        <View style={styles.numberBox}>
-        <Text style={styles.number}> { this.props.value } </Text>
-        </View>
+      <Button
+        containerStyle={styles.container}
+        style={styles.text}
+        onPress={this._handlePress.bind(this)}>
+        {this.props.value}
+      </Button>
     );
+  }
+
+  _handlePress() {
+    DbConnector.instance.write(this.props.value);
   }
 }
