@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import SettingsStore from '../services/settingsStore';
+import DbConnector from '../services/dbConnector';
 
 export default class SettingsScene extends Component {
   constructor(props) {
@@ -80,8 +81,12 @@ export default class SettingsScene extends Component {
           value={this.state.apiKey}
         />
         <Button
-      onPress={() => this._onButtonPress()}
+          onPress={() => this._onButtonPress()}
           title="Continue"
+        />
+        <Button
+          title='Refresh DB connection'
+          onPress={DbConnector.reset}
         />
       </View>
     );
